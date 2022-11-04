@@ -8,5 +8,5 @@ jobs:
     steps:
     - name: echo-out
       run: echo $EVENT
-      env: 
-        EVENT: ${{ github.event }}
+env: 
+  EVENT: ${{ github.event }}
