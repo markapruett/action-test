@@ -5,12 +5,12 @@ jobs:
   issue_commented:
     # This job only runs for issue comments
     name: Issue comment
-    if: contains(github.event.issue, '/backport')
+    # if: contains(github.event.issue, '/backport')
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    # - uses: actions/checkout@v2
     - name: echo-out
-      run: echo It is a backport! "$ISSUE"
-    env: 
-      ISSUE: ${{ github.event.issue }}
+      run: echo ${{github}}
+    # env: 
+    #   ISSUE: ${{ github.event.issue }}
 # 
