@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: echo-out
-      run: echo The event is "$EVENT"
-    env: 
-      EVENT: ${{ github.event.issue }}
+      run: echo It is a backport!
+#     env: 
+#       EVENT: ${{ github.event.issue }}
