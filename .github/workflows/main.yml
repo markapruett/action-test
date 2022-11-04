@@ -21,7 +21,7 @@ jobs:
           echo FILE: 
           cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS
           echo TROLL '${{ toJSON(env) }}'
-        # echo event '${{ toJSON(github.event) }}'
+          echo event '${{ toJSON(github.event) }}'
         # echo inputs '${{ toJSON(inputs) }}'
 
     - name: get-current-golang-ver
