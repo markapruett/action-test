@@ -30,8 +30,8 @@ jobs:
     needs: check_comment
     strategy:
       fail-fast: false
-    matrix: 
-      go_version: ${{ fromJson(needs.check_comment.outputs.matrix) }}
+      matrix: 
+        go_version: ${{ fromJson(needs.check_comment.outputs.matrix) }}
     steps:
     - name: Create issue
       run: echo GO_VERSION!!! ${{ matrix.go_version }}
