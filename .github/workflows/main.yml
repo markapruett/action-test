@@ -10,6 +10,5 @@ jobs:
     steps:
     - name: echo-out
       run: echo The event is "$EVENT"
-      env: 
-        EVENT: ${{ github.event }}
-      
+    env: 
+      EVENT: ${{ github.event.issue }}
