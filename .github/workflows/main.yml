@@ -19,9 +19,10 @@ jobs:
           fi
           
           echo FILE: ${GITHUB_WORKSPACE}/MAINTAINED_GO_VERSIONS
+          echo TROLL '${{ toJSON(env) }}'
         # echo event '${{ toJSON(github.event) }}'
         # echo inputs '${{ toJSON(inputs) }}'
-        # echo env '${{ toJSON(env) }}'
+
     - name: get-current-golang-ver
       run: |
         CURRENT_GOLANG_VER=$( curl -s https://go.dev/VERSION?m=text | sed -r 's/^.{2}//' )
