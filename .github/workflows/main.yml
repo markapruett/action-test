@@ -19,19 +19,25 @@ jobs:
           
           # echo FILE: 
           # cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS
-          echo "::set-output name=matrix::$(cat MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
-          echo TROLL '${{ toJSON(env) }}'
-          echo event '${{ toJSON(github.event) }}'
+          # echo "{name}={value}" >> $GITHUB_OUTPUT
+          
+          echo here is the go version array!
+          echo $(cat MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
+          
+          echo "go_version_array=$(cat MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
+          
+          # echo TROLL '${{ toJSON(env) }}'
+          # echo event '${{ toJSON(github.event) }}'
           # echo inputs '${{ toJSON(inputs) }}'
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      go_version_array: ${{ steps.check_the_comment.outputs.go_version_array }}
   open_issues:
     runs-on: ubuntu-latest
     needs: check_comment
     strategy:
       fail-fast: false
       matrix: 
-        go_version: ${{ fromJson(needs.check_comment.outputs.matrix) }}
+        go_versions: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
     steps:
     - name: Create issue
       run: echo GO_VERSION!!! ${{ matrix.go_version }}
