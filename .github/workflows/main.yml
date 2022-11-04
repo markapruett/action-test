@@ -5,12 +5,13 @@ jobs:
   issue_commented:
     # This job only runs for issue comments
     name: Issue comment
-    if: contains(${$COMMENT}, '/backport')
+#     if: contains(${$COMMENT}, '/backport')
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo A comment on issue "$NUMBER": "$COMMENT"
-        env:
-          NUMBER: ${{ github.event.issue.number }}
-          COMMENT: ${{ github.event.issue.comment }}
+    - run: |
+          if ${COMMENT} == '/backport'; then
+            echo The comment is $COMMENT 
+          fi
+    env:
+      COMMENT: ${{ github.event.issue.comment }}
       
