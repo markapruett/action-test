@@ -9,5 +9,5 @@ jobs:
     steps:
     - name: echo-out
       run: echo '${{ toJSON(github.event) }}'
-    env:
-      COMMENT: ${{ github.event.comment.body }}
+env:
+  COMMENT: ${{ github.event.comment.body }}
