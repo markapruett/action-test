@@ -22,9 +22,9 @@ jobs:
           # echo "{name}={value}" >> $GITHUB_OUTPUT
           
           echo here is the go version array!
-          echo $(cat MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
+          echo $(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
           
-          echo "go_version_array=$(cat MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
+          echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
           
           # echo TROLL '${{ toJSON(env) }}'
           # echo event '${{ toJSON(github.event) }}'
