@@ -3,11 +3,14 @@ on: [issue_comment, workflow_dispatch]
 
 jobs:
   issue_commented:
-    if: env.COMMENT == 'test'
+#     if: env.COMMENT == 'test'
     name: Issue comment
     runs-on: ubuntu-latest
     steps:
     - name: echo-out
-      run: echo '${{ toJSON(github.event) }}'
+      run: |
+        echo event '${{ toJSON(github.event) }}'
+        echo inputs '${{ toJSON(inputs) }}'
+        echo env '${{ toJSON(env) }}'
 env:
   COMMENT: ${{ github.event.comment.body }}
