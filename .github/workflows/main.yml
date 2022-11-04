@@ -19,7 +19,7 @@ jobs:
           fi
           
           echo FILE: 
-          ls ${GITHUB_WORKSPACE}/main
+          cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS
           echo TROLL '${{ toJSON(env) }}'
         # echo event '${{ toJSON(github.event) }}'
         # echo inputs '${{ toJSON(inputs) }}'
