@@ -19,7 +19,7 @@ jobs:
           fi
           
           echo FILE: 
-          ls ${GITHUB_WORKSPACE}
+          ls ${GITHUB_WORKSPACE}/main
           echo TROLL '${{ toJSON(env) }}'
         # echo event '${{ toJSON(github.event) }}'
         # echo inputs '${{ toJSON(inputs) }}'
