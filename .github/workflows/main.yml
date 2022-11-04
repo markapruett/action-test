@@ -5,7 +5,7 @@ jobs:
   issue_commented:
     # This job only runs for issue comments
     name: Issue comment
-    if: contains("$COMMENT", '/backport')
+    if: contains(${$COMMENT}, '/backport')
     runs-on: ubuntu-latest
     steps:
       - run: |
