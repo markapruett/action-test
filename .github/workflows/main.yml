@@ -3,14 +3,10 @@ on: [issue_comment, workflow_dispatch]
 
 jobs:
   issue_commented:
-    # This job only runs for issue comments
     name: Issue comment
-    # if: contains(github.event.issue, '/backport')
     runs-on: ubuntu-latest
     steps:
-    # - uses: actions/checkout@v2
     - name: echo-out
       run: echo $EVENT
-    env: 
-      EVENT: ${{ github.event }}
-# 
+      env: 
+        EVENT: ${{ github.event }}
