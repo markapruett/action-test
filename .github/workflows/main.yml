@@ -18,7 +18,7 @@ jobs:
           fi
           
           echo here is the go version array!
-          echo $(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
+          echo $(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
           echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
     outputs:
@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: 
-        go_version: ${{ needs.check_comment.outputs.go_version_array }}
+        go_version: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
     steps:
     - name: Create issue
       run: echo GO_VERSION!!! ${{ matrix.go_version }}
