@@ -18,7 +18,8 @@ jobs:
             echo NO BACKPORT!
           fi
           
-          echo FILE: ${GITHUB_WORKSPACE}/MAINTAINED_GO_VERSIONS
+          echo FILE: 
+          cat ${GITHUB_WORKSPACE}/MAINTAINED_GO_VERSIONS
           echo TROLL '${{ toJSON(env) }}'
         # echo event '${{ toJSON(github.event) }}'
         # echo inputs '${{ toJSON(inputs) }}'
