@@ -10,7 +10,7 @@ jobs:
     steps:
     # - uses: actions/checkout@v2
     - name: echo-out
-      run: echo ${{github}}
-    # env: 
-    #   ISSUE: ${{ github.event.issue }}
+      run: echo $EVENT
+    env: 
+      EVENT: ${{ github.event }}
 # 
