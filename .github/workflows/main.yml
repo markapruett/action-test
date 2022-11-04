@@ -10,7 +10,10 @@ jobs:
     steps:
     - run: |
           echo The comment is "$COMMENT"
-          echo "github.event.issue"
-    env:
-      COMMENT: ${{ github.event.issue.comment }}
+          echo "$EVENT"
+      env: 
+        COMMENT: ${{ github.event.issue.comment }}
+        EVENT: ${{ github.event }}
+#     env:
+#       COMMENT: ${{ github.event.issue.comment }}
       
