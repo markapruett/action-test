@@ -8,6 +8,7 @@ jobs:
     if: contains(${{ github.event.issue.comment }}, '/backport')
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: echo-out
       run: echo It is a backport!
 #     env: 
