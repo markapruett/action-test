@@ -32,7 +32,7 @@ jobs:
         go_version: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
     steps:
     - id: get_issue_title
-      run: echo "::set-env name=ISSUE_TITLE::$(curl -s ${{ ISSUE_URL }} | jq ".title")"
+      run: echo "::set-env name=ISSUE_TITLE::$(curl -s $ISSUE_URL | jq ".title")"
     - id: create_issue
       uses: dacbd/create-issue-action@main
       with:
