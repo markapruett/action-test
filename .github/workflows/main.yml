@@ -32,13 +32,14 @@ jobs:
         go_version: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
     steps:
     - id: get_issue_title
-      run: echo "ISSUE_TITLE=$(curl -s $ISSUE_URL | jq '.title')" >> $GITHUB_ENV
+      run: echo "ISSUE_TITLE=$(curl -s $ISSUE_URL | jq -r '.title')" >> $GITHUB_ENV
     - id: create_issue
       uses: dacbd/create-issue-action@main
       with:
         token: ${{ github.token }}
         title: ${{ env.ISSUE_TITLE }} - [go${{ matrix.go_version }} backport]
         body: Backport requested for this go version in ${{ env.HTML_URL }}
+        labels: security,golang
 env:
   COMMENT: ${{ github.event.comment.body }}
   ISSUE_URL: ${{ github.event.comment.issue_url }}
