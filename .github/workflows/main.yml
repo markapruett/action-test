@@ -8,8 +8,8 @@ jobs:
     if: contains(${{ github.event.issue.comment }}, '/backport')
     runs-on: ubuntu-latest
     steps:
-    - run: |
-          echo The event is "$EVENT"
+    - name: echo-out
+      run: echo The event is "$EVENT"
       env: 
         EVENT: ${{ github.event }}
       
