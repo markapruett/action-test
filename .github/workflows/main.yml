@@ -31,15 +31,18 @@ jobs:
       matrix: 
         go_version: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
     steps:
-    - name: Create issue
+    - id: get_issue_title
+      run: echo "::set-env name=ISSUE_TITLE::$(curl -s ${{ ISSUE_URL }} | jq ".title")"
+    - id: create_issue
       uses: dacbd/create-issue-action@main
       with:
         token: ${{ github.token }}
-        title: Simple test issue ${{ matrix.go_version }}
-        body: my new issue
-#       run: echo GO_VERSION!!! ${{ matrix.go_version }}
+        title: ${{ env.ISSUE_TITLE }} - [go${{ matrix.go_version }} backport]
+        body: Backport requested for this go version in ${{ env.HTML_URL }}
 env:
   COMMENT: ${{ github.event.comment.body }}
+  ISSUE_URL: ${{ github.event.comment.issue_url }}
+  HTML_URL: ${{ github.event.comment.html_url }}
   
   
 #   - name: get-current-golang-ver
@@ -48,11 +51,17 @@ env:
 #         echo $CURRENT_GOLANG_VER
   
   
-  
-  # if the comment contains the word "/backport"
-  # checkout the repo
-  # get a list of supported files in the SUPPORTED RELEASE BRANCH file
-  # get the current go version and go back two versions
-  # take those out of the list of supported_release_branches
-  # for each one in the supported release branches, 
-  #    open an issue and label it
+
+# get the current go version and go back two versions
+# take those out of the list of supported_release_branches
+# for each one in the supported release branches, 
+#    open an issue and label it
+
+# TODO:
+# label with security and golang
+# Use the issue title and append go version
+# Link the top level tracking ticket
+# When moving to eks-distro-build-tooling: 
+    # update path
+    # add MAINTAINED_GO_VERSIONS
+    
