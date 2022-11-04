@@ -9,11 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-          echo The comment is "$COMMENT"
-          echo "$EVENT"
+          echo The event is "$EVENT"
       env: 
-        COMMENT: ${{ github.event.issue.comment }}
         EVENT: ${{ github.event }}
-#     env:
-#       COMMENT: ${{ github.event.issue.comment }}
       
