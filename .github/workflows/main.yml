@@ -5,11 +5,11 @@ jobs:
   check_comment:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout_repo
+    - id: checkout_repo
       uses: actions/checkout@v3
       with:
         path: main
-    - name: check_the_comment
+    - id: check_the_comment
       run: |
           if [[ $COMMENT =~ "/backport" ]]; then 
             echo YES BACKPORT!
@@ -17,18 +17,10 @@ jobs:
             echo NO BACKPORT!
           fi
           
-          # echo FILE: 
-          # cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS
-          # echo "{name}={value}" >> $GITHUB_OUTPUT
-          
           echo here is the go version array!
           echo $(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
           
           echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
-          
-          # echo TROLL '${{ toJSON(env) }}'
-          # echo event '${{ toJSON(github.event) }}'
-          # echo inputs '${{ toJSON(inputs) }}'
     outputs:
       go_version_array: ${{ steps.check_the_comment.outputs.go_version_array }}
   open_issues:
@@ -37,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: 
-        go_versions: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
+        go_version: ${{ needs.check_comment.outputs.go_version_array }}
     steps:
     - name: Create issue
       run: echo GO_VERSION!!! ${{ matrix.go_version }}
