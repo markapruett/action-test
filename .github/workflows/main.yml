@@ -3,14 +3,13 @@ on: [issue_comment, workflow_dispatch]
 
 jobs:
   check_comment:
-    name: Issue comment
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: checkout_repo
       uses: actions/checkout@v3
       with:
         path: main
-    - name: echo-out
+    - name: check_the_comment
       run: |
           if [[ $COMMENT =~ "/backport" ]]; then 
             echo YES BACKPORT!
@@ -18,18 +17,32 @@ jobs:
             echo NO BACKPORT!
           fi
           
-          echo FILE: 
-          cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS
+          # echo FILE: 
+          # cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS
+          echo "::set-output name=matrix::$(cat MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')"
           echo TROLL '${{ toJSON(env) }}'
           echo event '${{ toJSON(github.event) }}'
-        # echo inputs '${{ toJSON(inputs) }}'
-
-    - name: get-current-golang-ver
-      run: |
-        CURRENT_GOLANG_VER=$( curl -s https://go.dev/VERSION?m=text | sed -r 's/^.{2}//' )
-        echo $CURRENT_GOLANG_VER
+          # echo inputs '${{ toJSON(inputs) }}'
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+  open_issues:
+    runs-on: ubuntu-latest
+    needs: check_comment
+    strategy:
+      fail-fast: false
+    matrix: 
+      go_version: ${{ fromJson(needs.check_comment.outputs.matrix) }}
+    steps:
+    - name: Create issue
+      run: echo GO_VERSION!!! ${{ matrix.go_version }}
 env:
   COMMENT: ${{ github.event.comment.body }}
+  
+  
+#   - name: get-current-golang-ver
+#       run: |
+#         CURRENT_GOLANG_VER=$( curl -s https://go.dev/VERSION?m=text | sed -r 's/^.{2}//' )
+#         echo $CURRENT_GOLANG_VER
   
   
   
