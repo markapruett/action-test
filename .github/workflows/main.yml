@@ -2,15 +2,39 @@ name: Issue comment handler
 on: [issue_comment, workflow_dispatch]
 
 jobs:
-  issue_commented:
-#     if: env.COMMENT == 'test'
+  check_comment:
     name: Issue comment
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: main
     - name: echo-out
       run: |
-        echo event '${{ toJSON(github.event) }}'
-        echo inputs '${{ toJSON(inputs) }}'
-        echo env '${{ toJSON(env) }}'
+          if [[ $COMMENT =~ "/backport" ]]; then 
+            echo YES BACKPORT!
+          else
+            echo NO BACKPORT!
+          fi
+          
+          echo $GITHUB_WORKSPACE
+        # echo event '${{ toJSON(github.event) }}'
+        # echo inputs '${{ toJSON(inputs) }}'
+        # echo env '${{ toJSON(env) }}'
+    - name: get-current-golang-ver
+      run: |
+        CURRENT_GOLANG_VER=$( curl -s https://go.dev/VERSION?m=text | sed -r 's/^.{2}//' )
+        echo $CURRENT_GOLANG_VER
 env:
   COMMENT: ${{ github.event.comment.body }}
+  
+  
+  
+  # if the comment contains the word "/backport"
+  # checkout the repo
+  # get a list of supported files in the SUPPORTED RELEASE BRANCH file
+  # get the current go version and go back two versions
+  # take those out of the list of supported_release_branches
+  # for each one in the supported release branches, 
+  #    open an issue and label it
