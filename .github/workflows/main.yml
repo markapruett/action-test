@@ -32,7 +32,12 @@ jobs:
         go_version: ${{ fromJson(needs.check_comment.outputs.go_version_array) }}
     steps:
     - name: Create issue
-      run: echo GO_VERSION!!! ${{ matrix.go_version }}
+      uses: dacbd/create-issue-action@main
+      with:
+        token: ${{ github.token }}
+        title: Simple test issue ${{ matrix.go_version }}
+        body: my new issue
+#       run: echo GO_VERSION!!! ${{ matrix.go_version }}
 env:
   COMMENT: ${{ github.event.comment.body }}
   
