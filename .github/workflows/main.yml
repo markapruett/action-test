@@ -13,7 +13,7 @@ jobs:
       run: |
             if [[ $COMMENT =~ "/backport" ]]; then 
               echo Comment contains request to backport...
-              echo "PROCEED_WITH_BACKPORT=true" >> $GITHUB_ENV
+              echo "proceed_with_backport=true" >> $GITHUB_OUTPUT
             else 
               echo No backport request
             fi
@@ -21,8 +21,9 @@ jobs:
             echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
     outputs:
       go_version_array: ${{ steps.check_the_comment.outputs.go_version_array }}
+      proceed_with_backport: ${{ steps.check_the_comment.outputs.PROCEED_WITH_BACKPORT }}
   open_issues:
-    if: ${{ env.PROCEED_WITH_BACKPORT }}
+    if: ${{ needs.check_comment.outputs.proceed_with_backport }}
     runs-on: ubuntu-latest
     needs: check_comment
     strategy:
