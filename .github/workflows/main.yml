@@ -12,15 +12,11 @@ jobs:
     - id: check_the_comment
       run: |
           if [[ $COMMENT =~ "/backport" ]]; then 
-            echo YES BACKPORT!
+            echo Opening backport issues...
+            echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
           else
             echo NO BACKPORT!
           fi
-          
-          echo here is the go version array!
-          echo $(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')
-          
-          echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
     outputs:
       go_version_array: ${{ steps.check_the_comment.outputs.go_version_array }}
   open_issues:
@@ -44,24 +40,8 @@ env:
   COMMENT: ${{ github.event.comment.body }}
   ISSUE_URL: ${{ github.event.comment.issue_url }}
   HTML_URL: ${{ github.event.comment.html_url }}
-  
-  
-#   - name: get-current-golang-ver
-#       run: |
-#         CURRENT_GOLANG_VER=$( curl -s https://go.dev/VERSION?m=text | sed -r 's/^.{2}//' )
-#         echo $CURRENT_GOLANG_VER
-  
-  
-
-# get the current go version and go back two versions
-# take those out of the list of supported_release_branches
-# for each one in the supported release branches, 
-#    open an issue and label it
 
 # TODO:
-# label with security and golang
-# Use the issue title and append go version
-# Link the top level tracking ticket
 # When moving to eks-distro-build-tooling: 
     # update path
     # add MAINTAINED_GO_VERSIONS
