@@ -22,7 +22,7 @@ jobs:
     outputs:
       go_version_array: ${{ steps.check_the_comment.outputs.go_version_array }}
   open_issues:
-    if: env.PROCEED_WITH_BACKPORT
+    if: ${{ env.PROCEED_WITH_BACKPORT }}
     runs-on: ubuntu-latest
     needs: check_comment
     strategy:
