@@ -3,7 +3,7 @@ on: [issue_comment, workflow_dispatch]
 
 jobs:
   check_comment:
-    if: ${{ env.COMMENT }} == "/backport"
+    if: ${{ env.COMMENT == "/backport" }}
     runs-on: ubuntu-latest
     steps:
     - id: checkout_repo
@@ -12,12 +12,8 @@ jobs:
         path: main
     - id: check_the_comment
       run: |
-#          if [[ $COMMENT =~ "/backport" ]]; then 
             echo Opening backport issues...
             echo "go_version_array=$(cat ${GITHUB_WORKSPACE}/main//MAINTAINED_GO_VERSIONS | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
-#          else
- #           echo NO BACKPORT!
-  #        fi
     outputs:
       go_version_array: ${{ steps.check_the_comment.outputs.go_version_array }}
   open_issues:
