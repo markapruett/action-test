@@ -3,7 +3,7 @@ on: [issue_comment, workflow_dispatch]
 
 jobs:
   check_comment:
-    if: contains(env.COMMENT, "/backport")
+    if: contains(github.event.comment.body, "/backport")
     runs-on: ubuntu-latest
     steps:
     - id: checkout_repo
